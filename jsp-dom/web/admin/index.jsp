@@ -6,8 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 
 <%@ include file="./common/header.jsp" %>
@@ -26,8 +26,11 @@
 
                     <div class="top-big-link">
                         <div class="clearfix" style="margin-bottom: 20px;">
-                            <input type="email" class="col-sm-9" id="exampleInputEmail1" placeholder="input todo item">
-                            <a class="btn btn-link-2 col-sm-2">add it</a>
+                            <input
+                                    id="todo-title"
+                                    name="title"
+                                    type="text" class="col-sm-9" id="exampleInputEmail1" placeholder="input todo item">
+                            <a class="btn btn-link-2 col-sm-2" id="btn">add it</a>
                         </div>
 
                         <table class="table">
@@ -61,6 +64,30 @@
              style="position: absolute; margin: 0px; padding: 0px; border: none; width: 1581.78px; height: 1071px; max-height: none; max-width: none; z-index: -999999; left: -150.892px; top: 0px;">
     </div>
 </div>
+<script src="./admin/assets/jquery-1.11.1.min.js"></script>
+<script>
+    window.addEventListener("load", function () {
+        var btn = document.getElementById('btn');
+        var todoTitle = document.getElementById('todo-title');
+
+        btn.addEventListener("click", function () {
+            var title = todoTitle.value;
+            if (title && title.replace(/^\s+|\s+$/, '').length > 0) {
+                $.ajax({
+                    url: "/addTodo",
+                    method: "post",
+                    title: title
+                }).then(function (res) {
+                    console.log(res);
+                }).catch(function (err) {
+                    console.log(err);
+                })
+            }
+        });
+
+
+    });
+</script>
 
 
 <%@include file="common/footer.jsp" %>
